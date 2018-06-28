@@ -1,26 +1,27 @@
+
 {% block menu %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">GTicket</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                {% for item in items %}
-                    {% if item is not iterable %}
+                {% for key,value in items %}
+                    {% if value is not iterable %}
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">{{ item }} <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ value }}">{{ key }} <span class="sr-only">(current)</span></a>
                         </li>
                     {% else %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Ticket
+                                {{ key }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {% for sub_item in item %}
+                                {% for key,value in value %}
 
-                                    <a class="dropdown-item" href="#">{{ sub_item }}</a>
+                                    <a class="dropdown-item" href="{{ value }}">{{ key }}</a>
 
                                 {% endfor %}
                             </div>
@@ -31,3 +32,4 @@
         </div>
     </nav>
 {% endblock menu %}
+{#******************************************************************************************#}
