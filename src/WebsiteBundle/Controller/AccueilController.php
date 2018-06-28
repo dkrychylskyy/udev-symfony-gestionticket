@@ -10,14 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AccueilController extends Controller
 {
-    // resuper le content de file txt
-    private function dataLoader($file) {
-        $finder = new Finder();
-        $finder->files()->in(__DIR__.'/../Resources/assets/')->name($file.'.txt');
-        foreach ($finder as $file) $content = file_get_contents($file);
-
-        return $content;
-    }
 
     /**
      * @Route("/text/{text}")
@@ -34,21 +26,5 @@ class AccueilController extends Controller
         ));
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/mention-legale")
-     */
-    public function showMentionLegale() {
 
-        $content = $this->dataLoader('ml');
-        return $this->render('@Website/MentionLegale/indexML.html.twig', array('content'=>$content));
-    }
-
-    /**
-     * @Route("/societe")
-     */
-    public function showSociete(){
-        $content = $this->dataLoader('societe');
-        return $this->render('@Website/Societe/indexSociete.html.twig', array('content'=>$content));
-    }
 }
