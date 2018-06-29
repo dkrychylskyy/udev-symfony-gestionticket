@@ -12,11 +12,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use WebsiteBundle\Entity\Ticket;
 use WebsiteBundle\Resources\enum\TicketsStatus;
 use WebsiteBundle\Entity\User;
-
+/**
+ * @Route("ticket")
+ */
 class GestionTicketController extends Controller
 {
     /**
-     * @Route("create-ticket")
+     * @Route("/new")
      */
     public function createTicketAction(Request $request)
     {
@@ -48,7 +50,7 @@ class GestionTicketController extends Controller
     }
 
     /**
-     * @Route("all-tickets")
+     * @Route("/all-tickets")
      */
     public function getTousTicketsAction()
     {
@@ -58,7 +60,7 @@ class GestionTicketController extends Controller
     }
 
     /**
-     * @Route("ouvert-tickets")
+     * @Route("/ouvert-tickets")
      */
     public function getOpenTicketsAction()
     {
@@ -68,7 +70,7 @@ class GestionTicketController extends Controller
     }
 
     /**
-     * @Route("en-traitement-tickets")
+     * @Route("/en-traitement-tickets")
      */
     public function getEnTraitementTicketsAction()
     {
@@ -78,7 +80,7 @@ class GestionTicketController extends Controller
     }
 
     /**
-     * @Route("fermes-tickets")
+     * @Route("/fermes-tickets")
      */
     public function getFermesTicketsAction()
     {
