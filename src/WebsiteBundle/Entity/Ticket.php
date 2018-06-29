@@ -2,6 +2,7 @@
 
 namespace WebsiteBundle\Entity;
 
+use Symfony\Component\Form\FormTypeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +26,7 @@ class Ticket
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $id;
 
@@ -37,14 +39,13 @@ class Ticket
      * @param $status
      * @param int $id
      */
-    public function __construct($demande, $commentaire, $utilisateur, $status, $id)
+    public function __construct($demande, $commentaire, $utilisateur, $status)
     {
         $this->demande = $demande;
         $this->commentaire = $commentaire;
         $this->dateCreation = date("Y-m-d H:i:s");
         $this->utilisateur = $utilisateur;
         $this->status = $status;
-        $this->id = $id;
     }
 
 

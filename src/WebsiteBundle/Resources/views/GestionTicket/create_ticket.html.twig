@@ -1,7 +1,18 @@
-{% extends "::base.html.twig" %}
+{# this tag only applies to the forms defined in this template #}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
+{% extends '@Website/base.html.twig' %}
 {% block title %}WebsiteBundle:GestionTicket:createTicket{% endblock %}
 
 {% block body %}
-<h1>Welcome to the GestionTicket:createTicket page</h1>
+    <div class="container">
+        <div class="row">
+            <h1>Welcome to the GestionTicket:createTicket page</h1>
+            <div class="col-8">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

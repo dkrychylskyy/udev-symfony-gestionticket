@@ -12,13 +12,18 @@ class AccueilController extends Controller
 {
 
     /**
-     * @Route("/text/{text}")
+     * @Route("/")
      */
-    public function showAction(Request $request, $text)
+//    /** ça fait une parit d'exemple  */
+//     * @Route("/text/{text}")
+//     */
+//    public function showAction(Request $request, $text)
+    public function showAction(Request $request)
     {
+        // Ca aussi une example
         // comme ça on peut récupere des parametres plus jolie
         // au lieu de /?text=hello on fait /text/hello
-        dump([$text]);
+        //  dump([$text]);
         // Ex de requperation des parametres depuis page web par GET, POST etc...
         $text = $request->query->get('text');
 
