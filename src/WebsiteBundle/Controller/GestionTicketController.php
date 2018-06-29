@@ -3,6 +3,7 @@
 namespace WebsiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -23,9 +24,7 @@ class GestionTicketController extends Controller
 
         $form = $this->createFormBuilder($ticket)
                 ->add('demande', TextType::class)
-                ->add('commentaire', TextType::class)
-                ->add('utilisateur', TextType::class)
-                ->add('status', TextType::class)
+                ->add('commentaire', TextareaType::class, array('required' => false))
                 ->add('save', SubmitType::class, array('label'=> 'Create Ticket'))
                 ->getForm();
 
@@ -42,6 +41,7 @@ class GestionTicketController extends Controller
             return $this->redirectToRoute('add_ticket_success');
         }
 
+        // Rendering template avec la forme
         return $this->render('@Website/GestionTicket/create_ticket.html.twig', array(
             'form'=>$form->createView(),
         ));

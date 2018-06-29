@@ -4,21 +4,16 @@ namespace WebsiteBundle\Entity;
 
 use Symfony\Component\Form\FormTypeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use WebsiteBundle\Resources\enum\TicketsStatus;
 
 /**
  * Ticket
  *
- * @ORM\Table(name="ticket")
+ * @ORM\Table(name="tickets")
  * @ORM\Entity(repositoryClass="WebsiteBundle\Repository\TicketRepository")
  */
 class Ticket
 {
-
-    private $demande;
-    private $commentaire;
-    private $dateCreation;
-    private $utilisateur;
-    private $status;
 
     /**
      * @var int
@@ -29,6 +24,18 @@ class Ticket
      *
      */
     private $id;
+
+    /** @ORM\Column(name="demande", length=140) */
+    private $demande;
+    /** @ORM\Column(name="commentaire", length=255) */
+    private $commentaire;
+
+    /** @ORM\Column(name="date_creation", type="datetime") */
+    private $dateCreation;
+    // private $utilisateur;
+
+    /** @ORM\Column(name="staus", length=50) */
+    private $status;
 
     /**
      * Ticket constructor.
@@ -43,9 +50,9 @@ class Ticket
     {
         $this->demande = $demande;
         $this->commentaire = $commentaire;
-        $this->dateCreation = date("Y-m-d H:i:s");
-        $this->utilisateur = $utilisateur;
-        $this->status = $status;
+        $this->dateCreation = new \DateTime("now");
+        //$this->utilisateur = $utilisateur;
+        $this->status = TicketsStatus::OUVERT;
     }
 
 

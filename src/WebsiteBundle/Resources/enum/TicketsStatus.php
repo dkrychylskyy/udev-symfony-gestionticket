@@ -11,7 +11,7 @@ namespace WebsiteBundle\Resources\enum;
 
 abstract class TicketsStatus
 {
-    const OUVERT = 'ouvert';
-    const EN_TRAITEMENT = 'en_traitelent';
-    const FERME = 'ferme';
+    const OUVERT = 'OUVERT';
+    const EN_TRAITEMENT = 'EN_TRAITEMENT';
+    const FERME = 'FERME';
 }
