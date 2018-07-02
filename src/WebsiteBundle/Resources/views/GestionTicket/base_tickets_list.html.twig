@@ -1,8 +1,7 @@
 {% block ticket_list %}
+    <table class="table table-striped">
 
-    <table class="table">
-
-        <thead>
+        <thead style="background-color: #203A45; color: #fff;">
         <tr>
             <th scope="col">Date creation</th>
             <th scope="col">Demande</th>
@@ -14,13 +13,28 @@
         <tbody>
             {% for ticket in tickets %}
                 <tr>
-                    <td scope="col">{{ ticket.dateCreation | date('j/m/Y') }}</td>
-                    <td scope="col">{{ ticket.demande }}</td>
-                    <td scope="col">{{ ticket.commentaire }}</td>
-                    <td scope="col">{{ ticket.status }}</td>
-                    <td scope="col"><a href="/ticket/edit?id={{ ticket.id }}">Edit</a></td>
+                    <td scope="row">{{ ticket.dateCreation | date('j/m/Y') }}</td>
+                    <td scope="row">{{ ticket.demande }}</td>
+                    <td scope="row">{{ ticket.commentaire }}</td>
+                    <td scope="row">{{ ticket.status }}</td>
+                    <td scope="row">
+                        <ul class="list-inline">
+                            <li class="list-inline-item "><a class="fermer" href="/ticket/fermer/{{ ticket.id }}"><i class="material-icons md-24 red">done</i></a></li>
+                            <li class="list-inline-item"><a class="modifier" href="/ticket/edit/{{ ticket.id }}"><i class="material-icons md-24">edit</i></a></li>
+                            <li class="list-inline-item"><a class="supprimer" href="/ticket/delete/{{ ticket.id }}"><i class="material-icons md-24">delete</i></a></li>
+                        </ul>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 {% endblock %}
+
+<style>
+    .material-icons.md-24 { font-size: 24px; }
+    .list-inline .grey { color: #868e96; }
+    .list-inline .fermer{ color: #20c997; }
+    .list-inline .modifier { color: #ffc107; }
+    .list-inline .supprimer { color: #dc3545; }
+
+</style>

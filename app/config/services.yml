@@ -7,7 +7,7 @@ services:
     app.data_loader:
         class: AppBundle\Service\DataLoader
         arguments: ['file']
-        public: ture
+        public: true
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services

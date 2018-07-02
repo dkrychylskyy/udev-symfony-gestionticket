@@ -52,7 +52,7 @@ class Ticket
         $this->commentaire = $commentaire;
         $this->dateCreation = new \DateTime("now");
         //$this->utilisateur = $utilisateur;
-        $this->status = TicketsStatus::OUVERT;
+        $this->status = TicketsStatus::STATUS_OUVERT;
     }
 
 
@@ -130,11 +130,16 @@ class Ticket
     }
 
     /**
-     * @param mixed $status
+     * @param $status
+     * @return $this
      */
     public function setStatus($status)
     {
+        if(!in_array($status, TicketsStatus::getAvaliableStatus())){
+            throw new \InvalidArgumentException("Status existe pas");
+        }
         $this->status = $status;
+        return $this;
     }
 }
 

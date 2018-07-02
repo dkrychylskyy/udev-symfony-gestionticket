@@ -2,30 +2,36 @@
 
 namespace WebsiteBundle\Controller;
 
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\Expression;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 use WebsiteBundle\Entity\Ticket;
 use WebsiteBundle\Resources\enum\TicketsStatus;
-use WebsiteBundle\Entity\User;
+
+
 /**
  * @Route("ticket")
  */
 class GestionTicketController extends Controller
 {
+
+    /**
+     * ****************************************************************************
+     * CRUD
+     * ****************************************************************************
+     */
+
     /**
      * @Route("/new")
      */
     public function createTicketAction(Request $request)
     {
-        $ticket = new Ticket("Mon demande", "Mon commentaire", "non", TicketsStatus::OUVERT);
+        $ticket = new Ticket("Mon demande", "Mon commentaire", "non", TicketsStatus::getStatusName("ouvert"));
 
         $form = $this->createFormBuilder($ticket)
                 ->add('demande', TextType::class)
@@ -59,6 +65,92 @@ class GestionTicketController extends Controller
     }
 
     /**
+     * @Route("/edit/{id}")
+     * @param $id int
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editTicket(Request $request, $id) {
+
+        $ticket = $this->getCurrentTicket($id);
+
+        // Creation une form selon le ticket
+        $form = $this->createFormBuilder($ticket)
+            ->add('demande', TextType::class)
+            ->add('commentaire', TextareaType::class, array('required' => false))
+            ->add('status', ChoiceType::class, array(
+                'required' => true,
+                'choices' => TicketsStatus::getAvaliableStatus(),
+                'choices_as_values' => true,
+                'choice_label' => function($choice) {
+                    return TicketsStatus::getStatusName($choice);
+                },
+            ))
+            ->add('save', SubmitType::class, array('label'=> 'Update Ticket'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        // Verification que tous les champs sont valides
+        if ($form->isSubmitted() && $form->isValid()){
+            $ticket = $form->getData();
+
+            // On sauvgarde un Ticket modifié en BD
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($ticket);
+            $entityManager->flush();
+
+            // Exemple de redirection
+            return $this->redirectToRoute('website_gestionticket_gettoustickets');
+        }
+
+        return $this->render('@Website/GestionTicket/update_ticket.html.twig', array(
+            'form' =>$form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/delete/{id}")
+     */
+    public function deleteTicket(Request $request, $id){
+        $ticket = $this->getCurrentTicket($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($ticket);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('website_gestionticket_gettoustickets');
+    }
+
+    /**
+     * @Route("/fermer/{id}")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function terminerTicket(Request $request, $id) {
+        $ticket = $this->getCurrentTicket($id);
+        $ticket->setStatus(TicketsStatus::STATUS_FERME);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($ticket);
+        $entityManager->flush();
+
+        // Exemple de redirection
+        return $this->redirectToRoute('website_gestionticket_gettoustickets');
+
+    }
+
+    /**
+     * @return Response
+     */
+    public function addTicketSuccessAction() {
+        return $this->render('@Website/add_ticket_success.html.twig');
+    }
+
+    /**
+     * *********************** FETCHING DATA FROM DB ************************
+     */
+
+    /**
      * @Route("/all-tickets")
      */
     public function getTousTicketsAction()
@@ -72,6 +164,8 @@ class GestionTicketController extends Controller
          * TODO
          * orderBy = plus recentes
          */
+
+
         $result = $this->getDoctrine()->getRepository(Ticket::class)->findBy(array(), null, "5");
         $ticketsArray = array();
 
@@ -81,9 +175,10 @@ class GestionTicketController extends Controller
         }
 
         if (sizeof($ticketsArray) <= 0 ) {
-            throw $this->createNotFoundException(
-                'Il n\'y a pas de tickets dans BD'
-            );
+            return new Response('<h3>Il n\'y a pas de tickets dans BD</h3><br><a href="/ticket/new">Ajouter un Ticket</a> ');
+//            throw $this->createNotFoundException(
+//                'Il n\'y a pas de tickets dans BD'
+//            );
         }
         return $this->render('@Website/GestionTicket/get_tous_tickets.html.twig', array(
             'tickets'=>$ticketsArray,
@@ -95,6 +190,7 @@ class GestionTicketController extends Controller
      */
     public function getOpenTicketsAction()
     {
+
         return $this->render('@Website/GestionTicket/get_open_tickets.html.twig', array(
             // ...
         ));
@@ -120,15 +216,13 @@ class GestionTicketController extends Controller
         ));
     }
 
-    public function addTicketSuccessAction() {
-        return $this->render('@Website/add_ticket_success.html.twig');
-    }
-
     /**
-     * @Route("/edit")
+     * ***********************************************************************************************
+     * Services
+     * ***********************************************************************************************
      */
-    public function editTicket(Request $request) {
-        $id = $request->query->get('id');
+
+    public function getCurrentTicket($id) {
 
         // Recuperation ticket de BD
         $entityManager = $this->getDoctrine()->getManager();
@@ -139,28 +233,8 @@ class GestionTicketController extends Controller
                 'Je n\'arrive pas trouver un ticket avec id : '. $id
             );
         }
-
-        // Creation une form selon le ticket
-        $form = $this->createFormBuilder($ticket)
-            ->add('demande', TextType::class)
-            ->add('commentaire', TextareaType::class, array('required' => false))
-//            ->add('Status', )
-            ->add('save', SubmitType::class, array('label'=> 'Update Ticket'))
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
-            $ticket = $form->getData();
-
-            // On sauvgarde un Ticket en BD
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($ticket);
-            $entityManager->flush();
-
-            return $this->getTousTicketsAction();
-        }
-
-        return $this->render('@Website/GestionTicket/update_ticket.html.twig', array('form' =>$form->createView()));
+        return $ticket;
     }
+
+
 }
