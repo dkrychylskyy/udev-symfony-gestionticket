@@ -34,7 +34,7 @@ class Ticket
     private $dateCreation;
     // private $utilisateur;
 
-    /** @ORM\Column(name="staus", length=50) */
+    /** @ORM\Column(name="status", length=50) */
     private $status;
 
     /**
@@ -64,6 +64,13 @@ class Ticket
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateCreation(){
+        return $this->dateCreation;
     }
 
     /**

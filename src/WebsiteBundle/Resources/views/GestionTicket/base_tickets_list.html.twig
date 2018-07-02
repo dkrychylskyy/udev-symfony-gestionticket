@@ -1,0 +1,26 @@
+{% block ticket_list %}
+
+    <table class="table">
+
+        <thead>
+        <tr>
+            <th scope="col">Date creation</th>
+            <th scope="col">Demande</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td scope="col">{{ ticket.dateCreation | date('j/m/Y') }}</td>
+                    <td scope="col">{{ ticket.demande }}</td>
+                    <td scope="col">{{ ticket.commentaire }}</td>
+                    <td scope="col">{{ ticket.status }}</td>
+                    <td scope="col"><a href="/ticket/edit?id={{ ticket.id }}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

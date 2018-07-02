@@ -992,7 +992,7 @@
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="249" parent="244" name="staus">
+    <column id="249" parent="244" name="status">
       <Position>5</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>

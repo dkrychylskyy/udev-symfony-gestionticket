@@ -13,6 +13,7 @@ app:
     type: annotation
 
 #Redirection en cas de success
+# Je n'utilise pas, au lieu de faire redirection je fait rendre view
 add_ticket_success:
     path: /add-ticket-success
-    defaults: { _controller: WebsiteBundle:GestionTicket:addTicketSuccess}
+    defaults: { _controller: WebsiteBundle:GestionTicket:createTicket}

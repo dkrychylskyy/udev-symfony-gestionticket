@@ -1,7 +1,10 @@
 {% extends '@Website/base.html.twig' %}
 
 {% block title %}WebsiteBundle:GestionTicket:getTousTickets{% endblock %}
-
-{% block body %}
+{#TODO
+  mis en page les tickets + ajouter jQuery ou bootstrap
+#}
+{% block content %}
 <h1>Welcome to the GestionTicket:getTousTickets page</h1>
+{{ include('@Website/GestionTicket/base_tickets_list.html.twig') }}
 {% endblock %}

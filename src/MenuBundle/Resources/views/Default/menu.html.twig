@@ -1,6 +1,6 @@
 
 {% block menu %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg">
         <a class="navbar-brand" href="#">GTicket</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {% for key,value in value %}
-                                {% if value != '/create-ticket' %}
+                                {% if value != '/ticket/new' %}
                                     <a class="dropdown-item" href="{{ value }}">{{ key }}</a>
                                 {% else %}
                                      <a class="dropdown-item createTicketItems" href="{{ value }}">{{ key }}</a>
@@ -47,5 +47,14 @@
     .createTicketItems:hover {
         color: #FFFFFF;
         background-color: #ffc107;
+    }
+
+    .navbar {
+        background-color: #203A45;
+        color: #fff;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+        color: #fff;
     }
 </style>
