@@ -13,7 +13,7 @@ abstract class TicketsStatus
 {
     const STATUS_OUVERT = 'Ouvert';
     const STATUS_EN_TRAITEMENT = 'En traitement';
-    const STATUS_FERME = 'Freme';
+    const STATUS_FERME = 'Ferme';
 
     protected static $statusName = [
         self::STATUS_OUVERT => "Ouvert",

@@ -34,11 +34,17 @@ class GestionTicketController extends Controller
      */
     public function createTicketAction(Request $request)
     {
+       $user = $this->getUser();
+
         $ticket = new Ticket("", "", "non", TicketsStatus::getStatusName("ouvert"));
 
         $form = $this->createFormBuilder($ticket)
                 ->add('demande', TextType::class, array('attr' => array('placeholder' => 'Saisisez votre demande')))
-                ->add('commentaire', TextareaType::class, array('required' => false, 'attr' => array('placeholder' => 'Ici pour un commentaire')))
+                ->add('commentaire', TextareaType::class, array(
+                    'required' => false,
+                    'empty_data' => '',
+                    'attr' => array(
+                        'placeholder' => 'Ici pour un commentaire')))
                 ->add('save', SubmitType::class, array('label'=> 'Create Ticket'))
                 ->getForm();
 
@@ -54,13 +60,13 @@ class GestionTicketController extends Controller
 
             return $this->render('@Website/GestionTicket/add_ticket_success.html.twig',
                 array('demande'=>$ticket->getDemande(),));
+
             // redirection vers une page selon les regles dans routin.yml
             //return $this->redirectToRoute('add_ticket_success');
 
             //Une façon de faire retour vers page twig apré avoir faire une action
             //return new Response('Saved new ticket with demande '.$ticket->getDemande());
         }
-
         // Rendering template avec la forme
         return $this->render('@Website/GestionTicket/create_ticket.html.twig', array(
             'form'=>$form->createView(),
@@ -150,7 +156,9 @@ class GestionTicketController extends Controller
     }
 
     /**
-     * *********************** FETCHING DATA FROM DB ************************
+     * *****************************************************************************************************************
+     * FETCHING DATA FROM DB
+     *******************************************************************************************************************
      */
 
     /**
@@ -169,7 +177,7 @@ class GestionTicketController extends Controller
          */
 
 
-        $result = $this->getDoctrine()->getRepository(Ticket::class)->findBy(array(), null, "5");
+        $result = $this->getDoctrine()->getRepository(Ticket::class)->findBy(array(), null, "10");
         $ticketsArray = array();
 
 
