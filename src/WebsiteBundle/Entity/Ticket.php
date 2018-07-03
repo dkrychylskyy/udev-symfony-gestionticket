@@ -31,7 +31,12 @@ class Ticket
 
     /** @ORM\Column(name="date_creation", type="datetime") */
     private $dateCreation;
-    // private $utilisateur;
+
+//    /** @ORM\Column(name="utilisateur", type="") */
+    /**
+     * @ORM\Column(name="id_utilisateur", type="integer")
+     */
+    private $utilisateur;
 
     /** @ORM\Column(name="status", length=50) */
     private $status;
@@ -45,14 +50,14 @@ class Ticket
      * @param $status
      * @param int $id
      */
-    public function __construct($demande, $commentaire, $utilisateur, $status)
-    {
-        $this->demande = $demande;
-        $this->commentaire = $commentaire;
-        $this->dateCreation = new \DateTime("now");
-        //$this->utilisateur = $utilisateur;
-        $this->status = TicketsStatus::STATUS_OUVERT;
-    }
+//    public function __construct($demande, $commentaire, $utilisateur, $status)
+//    {
+//        $this->demande = $demande;
+//        $this->commentaire = $commentaire;
+//        $this->dateCreation = new \DateTime("now");
+//        $this->utilisateur = $utilisateur;
+//        $this->status = TicketsStatus::STATUS_OUVERT;
+//    }
 
 
     /**
@@ -140,5 +145,15 @@ class Ticket
         $this->status = $status;
         return $this;
     }
+
+    /**
+     * @param mixed $dateCreation
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+    }
+
+
 }
 

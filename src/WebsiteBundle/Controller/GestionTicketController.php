@@ -36,7 +36,13 @@ class GestionTicketController extends Controller
     {
        $user = $this->getUser();
 
-        $ticket = new Ticket("", "", "non", TicketsStatus::getStatusName("ouvert"));
+//        $ticket = new Ticket("", "", "non", TicketsStatus::getStatusName("ouvert"));
+        $ticket = new Ticket();
+        $ticket->setStatus(TicketsStatus::getStatusName("Ouvert"));
+        $ticket->setDateCreation(new \DateTime("now"));
+        if ($user){
+            $ticket->setUtilisateur($user->getId());
+        }
 
         $form = $this->createFormBuilder($ticket)
                 ->add('demande', TextType::class, array('attr' => array('placeholder' => 'Saisisez votre demande')))
@@ -175,9 +181,15 @@ class GestionTicketController extends Controller
          * TODO
          * orderBy = plus recentes
          */
+        $user = $this->getUser();
 
+        if ($user) {
+            $id_utilisateur = $user->getId();
+            $result = $this->getDoctrine()->getRepository(Ticket::class)->findBy(array("utilisateur" => $id_utilisateur), null, "10");
+        } else {
+            $result = $this->getDoctrine()->getRepository(Ticket::class)->findBy(array(), null, "10");
+        }
 
-        $result = $this->getDoctrine()->getRepository(Ticket::class)->findBy(array(), null, "10");
         $ticketsArray = array();
 
 
@@ -201,6 +213,9 @@ class GestionTicketController extends Controller
      */
     public function getOpenTicketsAction()
     {
+        if($this->getCurrentUserID()){
+            $params['id_utilisateur'] = $this->getCurrentUserID();
+        }
         $params['status'] = TicketsStatus::STATUS_OUVERT;
         $result = $this->getDataWithQueriParam($params, EntityManager::class);
 
@@ -224,7 +239,12 @@ class GestionTicketController extends Controller
      */
     public function getEnTraitementTicketsAction()
     {
+
         $params['status'] = TicketsStatus::STATUS_EN_TRAITEMENT;
+
+        if($this->getCurrentUserID()){
+            $params['id_utilisateur'] = $this->getCurrentUserID();
+        }
         $result = $this->getDataWithQueriParam($params, EntityManager::class);
 
         $ticketsArray = array();
@@ -246,7 +266,13 @@ class GestionTicketController extends Controller
      * @Route("/fermes-tickets")
      */
     public function getFermesTicketsAction()
-    {   $params['status'] = TicketsStatus::STATUS_FERME;
+    {
+        $params['status'] = TicketsStatus::STATUS_FERME;
+
+        if($this->getCurrentUserID()){
+            $params['id_utilisateur'] = $this->getCurrentUserID();
+        }
+
         $result = $this->getDataWithQueriParam($params, EntityManager::class);
 
         $ticketsArray = array();
@@ -292,12 +318,16 @@ class GestionTicketController extends Controller
          */
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
         $query = $repository->createQueryBuilder('t')
-            ->where('t.status = :status')
-            ->setParameter('status', $params['status'])
+            ->where('t.status = :status AND t.utilisateur = :id_utilisateur')
+            ->setParameters(array('status' => $params['status'], 'id_utilisateur'=> $params['id_utilisateur']))
             ->orderBy('t.dateCreation', 'DESC')
             ->getQuery();
 
         $tickets = $query->getResult();
         return $tickets;
+    }
+
+    public function getCurrentUserID() {
+        return $id_utilisateur = $this->getUser()->getId();
     }
 }
