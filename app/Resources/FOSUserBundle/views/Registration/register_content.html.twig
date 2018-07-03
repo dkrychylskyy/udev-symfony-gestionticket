@@ -12,3 +12,18 @@
         </div>
     </div>
 </div>
+
+
+{#<h1>Register Aquanaut!</h1>#}
+{#<div class="container">#}
+    {#{% if error %}#}
+        {#<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
+    {#{% endif %}#}
+    {#<div class="row">#}
+        {#<div class="col-8">#}
+            {#<form action="{{ fos_user_registration_register }}" method="post">#}
+                {#<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />#}
+            {#</form>#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
