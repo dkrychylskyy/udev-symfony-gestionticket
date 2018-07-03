@@ -34,11 +34,11 @@ class GestionTicketController extends Controller
      */
     public function createTicketAction(Request $request)
     {
-        $ticket = new Ticket("Mon demande", "Mon commentaire", "non", TicketsStatus::getStatusName("ouvert"));
+        $ticket = new Ticket("", "", "non", TicketsStatus::getStatusName("ouvert"));
 
         $form = $this->createFormBuilder($ticket)
-                ->add('demande', TextType::class)
-                ->add('commentaire', TextareaType::class, array('required' => false))
+                ->add('demande', TextType::class, array('attr' => array('placeholder' => 'Saisisez votre demande')))
+                ->add('commentaire', TextareaType::class, array('required' => false, 'attr' => array('placeholder' => 'Ici pour un commentaire')))
                 ->add('save', SubmitType::class, array('label'=> 'Create Ticket'))
                 ->getForm();
 
