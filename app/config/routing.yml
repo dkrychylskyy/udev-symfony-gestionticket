@@ -17,3 +17,6 @@ app:
 add_ticket_success:
     path: /add-ticket-success
     defaults: { _controller: WebsiteBundle:GestionTicket:createTicket}
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
