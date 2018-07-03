@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Accueil{% endblock %}</title>
     {% block stylesheets %}
-        {#<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">#}
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -25,11 +24,7 @@
     <div class="wrapper h-100">
         <div class="page-body">
             <div class="container-fluid">
-                <div class="page-content">
-                    <div class="col-md-9 col-sm-8">
                         {% block content %}{% endblock %}
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -62,7 +57,13 @@
         margin-bottom: 1em;
     }
 
-    .page-content {
+    .container-fluid {
         min-height: 600px;
+    }
+    .table-striped {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .dropdown-item.active, .dropdown-item:active {
+        background-color: #ffc107;
     }
 </style>

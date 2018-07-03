@@ -2,6 +2,7 @@
 
 namespace WebsiteBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -11,8 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use WebsiteBundle\Entity\Ticket;
+use WebsiteBundle\Repository\TicketRepository;
 use WebsiteBundle\Resources\enum\TicketsStatus;
-
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @Route("ticket")
@@ -190,9 +193,21 @@ class GestionTicketController extends Controller
      */
     public function getOpenTicketsAction()
     {
+        $params['status'] = TicketsStatus::STATUS_OUVERT;
+        $result = $this->getDataWithQueriParam($params, EntityManager::class);
 
+        $ticketsArray = array();
+
+
+        foreach ($result as $value){
+            $ticketsArray[] = $value;
+        }
+
+        if (sizeof($ticketsArray) <= 0 ) {
+            return new Response('<h3>Il n\'y a pas de tickets dans BD</h3><br><a href="/ticket/new">Ajouter un Ticket</a> ');
+        }
         return $this->render('@Website/GestionTicket/get_open_tickets.html.twig', array(
-            // ...
+           'tickets' => $ticketsArray,
         ));
     }
 
@@ -201,8 +216,21 @@ class GestionTicketController extends Controller
      */
     public function getEnTraitementTicketsAction()
     {
+        $params['status'] = TicketsStatus::STATUS_EN_TRAITEMENT;
+        $result = $this->getDataWithQueriParam($params, EntityManager::class);
+
+        $ticketsArray = array();
+
+
+        foreach ($result as $value){
+            $ticketsArray[] = $value;
+        }
+
+        if (sizeof($ticketsArray) <= 0 ) {
+            return new Response('<h3>Il n\'y a pas de tickets dans BD</h3><br><a href="/ticket/new">Ajouter un Ticket</a> ');
+        }
         return $this->render('@Website/GestionTicket/get_en_traitement_tickets.html.twig', array(
-            // ...
+            'tickets'=>$ticketsArray,
         ));
     }
 
@@ -210,9 +238,22 @@ class GestionTicketController extends Controller
      * @Route("/fermes-tickets")
      */
     public function getFermesTicketsAction()
-    {
+    {   $params['status'] = TicketsStatus::STATUS_FERME;
+        $result = $this->getDataWithQueriParam($params, EntityManager::class);
+
+        $ticketsArray = array();
+
+
+        foreach ($result as $value){
+            $ticketsArray[] = $value;
+        }
+
+        if (sizeof($ticketsArray) <= 0 ) {
+            return new Response('<h3>Il n\'y a pas de tickets dans BD</h3><br><a href="/ticket/new">Ajouter un Ticket</a> ');
+        }
+
         return $this->render('@Website/GestionTicket/get_fermes_tickets.html.twig', array(
-            // ...
+            'tickets'=>$ticketsArray,
         ));
     }
 
@@ -236,5 +277,19 @@ class GestionTicketController extends Controller
         return $ticket;
     }
 
+    public function getDataWithQueriParam($params) {
 
+        /**
+         * @var TicketRepository $repository
+         */
+        $repository = $this->getDoctrine()->getRepository(Ticket::class);
+        $query = $repository->createQueryBuilder('t')
+            ->where('t.status = :status')
+            ->setParameter('status', $params['status'])
+            ->orderBy('t.dateCreation', 'DESC')
+            ->getQuery();
+
+        $tickets = $query->getResult();
+        return $tickets;
+    }
 }

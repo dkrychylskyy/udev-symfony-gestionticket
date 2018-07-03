@@ -2,6 +2,7 @@
 
 {% block title %}WebsiteBundle:GestionTicket:getFermesTickets{% endblock %}
 
-{% block body %}
-<h1>Welcome to the GestionTicket:getFermesTickets page</h1>
-{% endblock %}
+    {% block content %}
+        <h1>Welcome to the GestionTicket:getFermesTickets page</h1>
+        {{ include('@Website/GestionTicket/base_tickets_list.html.twig') }}
+    {% endblock %}

@@ -2,6 +2,7 @@
 
 {% block title %}WebsiteBundle:GestionTicket:getEnTraitementTickets{% endblock %}
 
-{% block body %}
+{% block content %}
 <h1>Welcome to the GestionTicket:getEnTraitementTickets page</h1>
+    {{ include('@Website/GestionTicket/base_tickets_list.html.twig') }}
 {% endblock %}
