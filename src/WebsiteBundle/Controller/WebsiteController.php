@@ -2,6 +2,7 @@
 
 namespace WebsiteBundle\Controller;
 
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,8 @@ class WebsiteController extends Controller
      */
     public function indexAction()
     {
+        $php_info = phpinfo();
+        dump($php_info);
         return $this->render('@Website/Default/index.html.twig');
     }
 

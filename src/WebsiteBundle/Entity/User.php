@@ -3,6 +3,7 @@
 namespace WebsiteBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -25,6 +26,28 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+    * @ORM\Column(name="avatar", type="string")
+    *
+    * @Assert\File(
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Only jpeg or png are allowed."
+     * )
+    */
+    private $image;
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }
 

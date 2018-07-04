@@ -27,8 +27,7 @@ class AccueilController extends Controller
         // Ex de requperation des parametres depuis page web par GET, POST etc...
         $text = $request->query->get('text');
 
-        return $this->render('@Website/Accueil/show.html.twig', array(
-        ));
+        return $this->render('@Website/Accueil/show.html.twig');
     }
 
 

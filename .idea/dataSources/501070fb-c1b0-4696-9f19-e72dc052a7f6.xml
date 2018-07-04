@@ -1116,32 +1116,37 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="271" parent="247" name="UNIQ_8D93D64992FC23A8">
+    <column id="271" parent="247" name="avatar">
+      <Position>13</Position>
+      <DataType>varchar(180)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="272" parent="247" name="UNIQ_8D93D64992FC23A8">
       <ColNames>username_canonical</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="272" parent="247" name="UNIQ_8D93D649A0D96FBF">
+    <index id="273" parent="247" name="UNIQ_8D93D649A0D96FBF">
       <ColNames>email_canonical</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="273" parent="247" name="UNIQ_8D93D649C05FB297">
+    <index id="274" parent="247" name="UNIQ_8D93D649C05FB297">
       <ColNames>confirmation_token</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="274" parent="247" name="PRIMARY">
+    <key id="275" parent="247" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="275" parent="247" name="UNIQ_8D93D64992FC23A8">
+    <key id="276" parent="247" name="UNIQ_8D93D64992FC23A8">
       <ColNames>username_canonical</ColNames>
       <UnderlyingIndexName>UNIQ_8D93D64992FC23A8</UnderlyingIndexName>
     </key>
-    <key id="276" parent="247" name="UNIQ_8D93D649A0D96FBF">
+    <key id="277" parent="247" name="UNIQ_8D93D649A0D96FBF">
       <ColNames>email_canonical</ColNames>
       <UnderlyingIndexName>UNIQ_8D93D649A0D96FBF</UnderlyingIndexName>
     </key>
-    <key id="277" parent="247" name="UNIQ_8D93D649C05FB297">
+    <key id="278" parent="247" name="UNIQ_8D93D649C05FB297">
       <ColNames>confirmation_token</ColNames>
       <UnderlyingIndexName>UNIQ_8D93D649C05FB297</UnderlyingIndexName>
     </key>

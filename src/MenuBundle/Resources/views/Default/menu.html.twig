@@ -36,19 +36,32 @@
                                 </div>
                             </li>
                          {% else %}
-                             <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_security_login') }}"><span>Connectez-vous</span></a></li>
-                             <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_registration_register') }}"><span>Registrez-vous</span></a></li>
+                             {#<li class="nav-item"><a class="nav-link" href="{{ path('fos_user_security_login') }}"><span>Connectez-vous</span></a></li>#}
+                             {#<li class="nav-item"><a class="nav-link" href="{{ path('fos_user_registration_register') }}"><span>Registrez-vous</span></a></li>#}
                          {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% if is_granted('ROLE_USER') %}
                     <li class="nav-item"><a class="nav-link creer-ticket-link" href="{{ path('website_gestionticket_createticket') }}"><span>Créer un ticket</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_security_logout') }}"><span>Déconnectez-vous</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_profile_edit') }}"><span>Modifier compte</span></a></li>
+                    {#<li class="nav-item"><a class="nav-link" href="{{ path('fos_user_security_logout') }}"><span>Déconnectez-vous</span></a></li>#}
+                    {#<li class="nav-item"><a class="nav-link" href="{{ path('fos_user_profile_edit') }}"><span>Modifier compte</span></a></li>#}
                 {#{% else %}#}
                     {#<li class="nav-item"><a class="nav-link" href="{{ path('fos_user_security_login') }}"><span>Login</span></a></li>#}
                 {% endif %}
             </ul>
+            <ul class="navbar-nav">
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_security_logout') }}"><span>Déconnectez-vous</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_profile_edit') }}"><span>Modifier compte</span></a></li>
+                    {#<img class="img-thumbnail mx-auto d-block" src="{{ asset('uploads/images/' ~ user.image) }}" height="100%" width="50px">#}
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_security_login') }}"><span>Connectez-vous</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ path('fos_user_registration_register') }}"><span>Registrez-vous</span></a></li>
+                 {% endif %}
+            </ul>
+            {% if is_granted('ROLE_USER') %}
+                <img class="rounded float-right" src="{{ asset('uploads/images/' ~ user.image) }}" height="50" width="50" >
+            {% endif %}
         </div>
     </nav>
 {% endblock menu %}
@@ -75,4 +88,13 @@
     .creer-ticket-link {
         color: #ffc107 !important;
     }
+
+    .creer-ticket-link:hover {
+        color: #FFFFFF !important;
+    }
+
+    .navbar-nav .nav-item .nav-link:hover {
+        color: #ffc107;
+    }
+
 </style>

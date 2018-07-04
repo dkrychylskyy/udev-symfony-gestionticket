@@ -20,6 +20,6 @@ class MenuController extends Controller
         $items['Societe'] = '/societe';
         $items['Tickets'] = $sub_items;
 
-        return $this->render('@Menu/Default/menu.html.twig', array("items" => $items));
+        return $this->render('@Menu/Default/menu.html.twig', array("items" => $items, 'user' => $this->getUser()));
     }
 }

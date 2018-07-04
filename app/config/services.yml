@@ -41,3 +41,12 @@ services:
         class: WebsiteBundle\Form\RegistrationType
         tags:
             - { name: form.type, alias: app_user_registration }
+    website.image_uploader:
+        class: WebsiteBundle\ImageUpload
+        arguments: ['%images_directory%']
+    website.doctrine_image_listener:
+        class: WebsiteBundle\EventListener\ImageUploadListener
+        arguments: ['@website.image_uploader']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
