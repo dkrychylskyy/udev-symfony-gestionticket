@@ -24,7 +24,12 @@
     <div class="wrapper h-100">
         <div class="page-body">
             <div class="container-fluid">
-                        {% block content %}{% endblock %}
+                {% if not is_granted('ROLE_USER') %}
+                    <div class="alert alert-info" role="alert">
+                        Pour avoir plus des possibilites Connectez-vous :)
+                    </div>
+                {% endif %}
+                {% block content %}{% endblock %}
             </div>
         </div>
     </div>
